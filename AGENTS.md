@@ -1,9 +1,9 @@
 # Visitation Calendar — Agent Handoff Documentation
 
-**Case:** Elliott v. Johnson — Case No. 04 DR 2018-748-6
-**Court:** Benton County Circuit Court, Domestic Relations Division, Arkansas
+**Case:** _REDACTED_
+**Court:** _REDACTED_
 **Order date:** November 13, 2023
-**School district:** Bentonville, AR (Rogers School District area)
+**School district:** Bentonville Schools, Bentonville, AR
 
 ---
 

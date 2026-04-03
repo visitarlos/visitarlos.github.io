@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
 Elliott/Johnson Custody Calendar Generator
-Case No. 04 DR 2018-748-6 — Benton County, AR
 
 P1 = Magdalene Johnson (Defendant / primary custodian / mother) — YELLOW
-P2 = Wesley Elliott   (Plaintiff / noncustodial / father)        — GREEN
+P2 = Wesley Elliott   (Plaintiff / noncustodial / father)   — GREEN
 
 Confirmed:
  - P1 always has Mother's Day → P1 = mother = Magdalene ✓
