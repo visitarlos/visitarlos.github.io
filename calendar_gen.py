@@ -101,7 +101,7 @@ def build_schedule(year, spring_break, thanksgiving_break, xmas_last_schoolday,
         d += timedelta(1)
 
     # ── summer phase 1: school end → July 4 ─────────────────
-    # Magdalene (P1) primary; Wesley (P2) gets Thursdays only (no alternating weekends)
+    # Magdalene (P1) primary; Wesley (P2) gets Thursdays + alternating weekends
     # Phase 1 Thursdays are SPLIT days: Maggy has kids all morning,
     # Wesley picks up at school release / 3:30 PM (no school).
     splits = {}  # date → (morning_parent, afternoon_parent)
@@ -110,10 +110,12 @@ def build_schedule(year, spring_break, thanksgiving_break, xmas_last_schoolday,
         phase1_e = date(year, 7, 4)
         d = phase1_s
         while d <= phase1_e:
-            if d.weekday() != 3:   # not Thursday → P1 (Magdalene)
-                S[d] = P1
-            else:                  # Thursday → split: Maggy morning, Wesley from 3:30 PM
+            if d.weekday() == 3:   # Thursday → split: Maggy morning, Wesley from 3:30 PM
                 splits[d] = (P1, P2)
+            elif is_p2_fri(d):     # Wesley's weekend Friday → split: Maggy AM, Wesley PM
+                splits[d] = (P1, P2)
+            elif not (d.weekday() in (5, 6) and is_p2_fri(prev_fri(d))):
+                S[d] = P1           # non-Wesley-weekend days → P1 (Magdalene)
             d += timedelta(1)
 
     # ── holiday overrides ────────────────────────────────────
@@ -150,7 +152,7 @@ def build_schedule(year, spring_break, thanksgiving_break, xmas_last_schoolday,
 
     # SUMMER VISITATION Jul 5–Aug 8 (5 weeks) → Wesley (P2 / noncustodial)
     # Starts at 10:00 AM on July 5 → split: Maggy morning, Wesley from 10 AM
-    # During summer: Magdalene (P1 / custodial) gets Thursdays only (no alternating weekends)
+    # Alternating weekends continue; Magdalene (P1) gets Thursdays as split days
     # Phase 2 Thursdays are SPLIT days: Wesley all morning, Maggy picks up at 3:30 PM
     sum_s = date(year, 7, 5)
     sum_e = sum_s + timedelta(34)
@@ -158,9 +160,13 @@ def build_schedule(year, spring_break, thanksgiving_break, xmas_last_schoolday,
     splits[sum_s] = (P1, P2)   # July 5: Maggy morning → Wesley from 10 AM
     d = sum_s
     while d <= sum_e:
-        if d.weekday() == 3:   # Thu → P1 (Magdalene) midweek only
+        if d.weekday() == 3:   # Thu → P1 (Magdalene) midweek
             S[d] = P1
             splits[d] = (P2, P1)   # Wesley morning → Maggy from 3:30 PM
+        # Magdalene's alternating weekends: Fri split, Sat-Sun Maggy
+        elif d.weekday() == 4 and not is_p2_fri(d):
+            splits[d] = (P2, P1)   # Wesley AM → Maggy PM
+            mark(d + timedelta(1), d + timedelta(2), P1)  # Sat-Sun Maggy
         d += timedelta(1)
 
     # LABOR DAY Fri–Mon  (P2=Wesley even, P1=Magdalene odd)
