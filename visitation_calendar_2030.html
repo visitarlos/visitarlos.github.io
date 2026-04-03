@@ -5,7 +5,12 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#dde1e7;padding:14px}
 header{text-align:center;margin-bottom:10px}
-h1{font-size:22px;color:#111;font-weight:700}
+h1{font-size:22px;color:#111;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px}
+.nav{display:inline-flex;align-items:center;justify-content:center;
+     min-width:44px;min-height:44px;font-size:30px;font-weight:300;
+     color:#111;text-decoration:none;opacity:.45;transition:opacity .15s;user-select:none}
+.nav:hover,.nav:active{opacity:.85}
+.nav-ph{min-width:44px}
 .sub{font-size:11px;color:#555;margin-top:3px}
 .leg{display:flex;justify-content:center;gap:26px;margin-bottom:12px;font-size:12px;flex-wrap:wrap}
 .li{display:flex;align-items:center;gap:6px}
@@ -33,6 +38,7 @@ h1{font-size:22px;color:#111;font-weight:700}
 @media(prefers-color-scheme:dark){
   body{background:#1a1a2e}
   h1{color:#eee}
+  .nav{color:#eee}
   .sub{color:#aaa}
   .mo{background:#2a2a3e;box-shadow:0 1px 5px rgba(0,0,0,.3)}
   .mn{color:#ccc}
@@ -42,7 +48,7 @@ h1{font-size:22px;color:#111;font-weight:700}
 </style></head>
 <body>
 <header>
-  <h1>2030 Visitation Calendar</h1>
+  <h1><a class="nav" href="visitation_calendar_2029.html">&lsaquo;</a> 2030 Visitation Calendar <a class="nav" href="visitation_calendar_2031.html">&rsaquo;</a></h1>
 </header>
 <div class="leg">
   <div class="li"><div class="sw" style="background:#3d9e41"></div><b>Maggy</b></div>

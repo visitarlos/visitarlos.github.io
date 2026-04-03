@@ -256,7 +256,12 @@ CSS = """
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#dde1e7;padding:14px}
 header{text-align:center;margin-bottom:10px}
-h1{font-size:22px;color:#111;font-weight:700}
+h1{font-size:22px;color:#111;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px}
+.nav{display:inline-flex;align-items:center;justify-content:center;
+     min-width:44px;min-height:44px;font-size:30px;font-weight:300;
+     color:#111;text-decoration:none;opacity:.45;transition:opacity .15s;user-select:none}
+.nav:hover,.nav:active{opacity:.85}
+.nav-ph{min-width:44px}
 .sub{font-size:11px;color:#555;margin-top:3px}
 .leg{display:flex;justify-content:center;gap:26px;margin-bottom:12px;font-size:12px;flex-wrap:wrap}
 .li{display:flex;align-items:center;gap:6px}
@@ -284,6 +289,7 @@ h1{font-size:22px;color:#111;font-weight:700}
 @media(prefers-color-scheme:dark){
   body{background:#1a1a2e}
   h1{color:#eee}
+  .nav{color:#eee}
   .sub{color:#aaa}
   .mo{background:#2a2a3e;box-shadow:0 1px 5px rgba(0,0,0,.3)}
   .mn{color:#ccc}
@@ -292,7 +298,7 @@ h1{font-size:22px;color:#111;font-weight:700}
 }
 """
 
-def render(year, S, splits):
+def render(year, S, splits, all_years=()):
     months_html = ""
     for mo in range(1, 13):
         first  = date(year, mo, 1)
@@ -311,13 +317,15 @@ def render(year, S, splits):
         months_html += f'<div class="mo"><div class="mn">{MONTH_NAMES[mo-1]}</div><div class="dg">{cells}</div></div>'
 
     split_swatch = ("linear-gradient(135deg,#3d9e41 50%,#FFD700 50%)")
+    nav_prev = f'<a class="nav" href="visitation_calendar_{year-1}.html">&lsaquo;</a>' if year-1 in all_years else '<span class="nav-ph"></span>'
+    nav_next = f'<a class="nav" href="visitation_calendar_{year+1}.html">&rsaquo;</a>' if year+1 in all_years else '<span class="nav-ph"></span>'
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{year} Visitation Calendar</title>
 <style>{CSS}</style></head>
 <body>
 <header>
-  <h1>{year} Visitation Calendar</h1>
+  <h1>{nav_prev} {year} Visitation Calendar {nav_next}</h1>
 </header>
 <div class="leg">
   <div class="li"><div class="sw" style="background:#3d9e41"></div><b>Maggy</b></div>
@@ -330,9 +338,10 @@ def render(year, S, splits):
 out_dir = os.path.dirname(os.path.abspath(__file__))
 os.makedirs(out_dir, exist_ok=True)
 
+all_years = set(YEAR_DATA.keys())
 for year, params in YEAR_DATA.items():
     S, splits = build_schedule(year, **params)
-    html = render(year, S, splits)
+    html = render(year, S, splits, all_years)
     with open(f"{out_dir}/visitation_calendar_{year}.html", "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✓ {year}  {'(even)' if year%2==0 else '(odd) '}")
