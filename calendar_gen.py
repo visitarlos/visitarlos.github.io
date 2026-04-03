@@ -317,7 +317,7 @@ def render(year, S, splits):
 <div class="leg">
   <div class="li"><div class="sw" style="background:#3d9e41"></div><b>Maggy</b></div>
   <div class="li"><div class="sw" style="background:#FFD700"></div><b>Wesley</b></div>
-  <div class="li"><div class="sw" style="background:{split_swatch}"></div><b>Split day</b> (AM → PM)</div>
+  <div class="li"><div class="sw" style="background:{split_swatch}"></div><b>Split day</b></div>
 </div>
 <div class="grid">{months_html}</div>
 </body></html>"""
@@ -328,7 +328,7 @@ os.makedirs(out_dir, exist_ok=True)
 for year, params in YEAR_DATA.items():
     S, splits = build_schedule(year, **params)
     html = render(year, S, splits)
-    with open(f"{out_dir}/visitation_calendar_{year}.html", "w") as f:
+    with open(f"{out_dir}/visitation_calendar_{year}.html", "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✓ {year}  {'(even)' if year%2==0 else '(odd) '}")
 
