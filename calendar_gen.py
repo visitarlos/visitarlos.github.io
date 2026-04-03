@@ -255,7 +255,7 @@ h1{font-size:22px;color:#111;font-weight:700}
 .sub{font-size:11px;color:#555;margin-top:3px}
 .leg{display:flex;justify-content:center;gap:26px;margin-bottom:12px;font-size:12px;flex-wrap:wrap}
 .li{display:flex;align-items:center;gap:6px}
-.sw{width:21px;height:21px;border-radius:4px;border:1px solid rgba(0,0,0,.18);flex-shrink:0}
+.sw{width:21px;height:21px;border-radius:3px;border:none;flex-shrink:0}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:1020px;margin:0 auto}
 .mo{background:#fff;border-radius:9px;padding:9px;box-shadow:0 1px 5px rgba(0,0,0,.09)}
 .mn{text-align:center;font-weight:700;font-size:11px;color:#333;margin-bottom:5px;
@@ -274,6 +274,17 @@ h1{font-size:22px;color:#111;font-weight:700}
 /* .ba = Wesley(yellow) morning → Maggy(green) afternoon */
 .ba{background:linear-gradient(135deg,#FFD700 50%,#3d9e41 50%);
     color:#222;text-shadow:0 0 3px rgba(255,255,255,.8)}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+@media(prefers-color-scheme:dark){
+  body{background:#1a1a2e}
+  h1{color:#eee}
+  .sub{color:#aaa}
+  .mo{background:#2a2a3e;box-shadow:0 1px 5px rgba(0,0,0,.3)}
+  .mn{color:#ccc}
+  .dh{color:#888}
+  .leg,.li,.li b{color:#ddd}
+}
 """
 
 def render(year, S, splits):
@@ -297,7 +308,7 @@ def render(year, S, splits):
     split_swatch = ("linear-gradient(135deg,#3d9e41 50%,#FFD700 50%)")
     return f"""<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>{year} Visitation Calendar</title>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{year} Visitation Calendar</title>
 <style>{CSS}</style></head>
 <body>
 <header>
@@ -311,7 +322,7 @@ def render(year, S, splits):
 <div class="grid">{months_html}</div>
 </body></html>"""
 
-out_dir = "/sessions/friendly-tender-brahmagupta/mnt/visitation-calendar"
+out_dir = os.path.dirname(os.path.abspath(__file__))
 os.makedirs(out_dir, exist_ok=True)
 
 for year, params in YEAR_DATA.items():
