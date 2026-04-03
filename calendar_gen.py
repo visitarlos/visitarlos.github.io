@@ -325,7 +325,7 @@ def render(year, S, splits, all_years=()):
 <style>{CSS}</style></head>
 <body>
 <header>
-  <h1>{nav_prev} {year} Visitation Calendar {nav_next}</h1>
+  <h1>{nav_prev} {year} Visitation {nav_next}</h1>
 </header>
 <div class="leg">
   <div class="li"><div class="sw" style="background:#3d9e41"></div><b>Maggy</b></div>
